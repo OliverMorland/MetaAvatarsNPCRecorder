@@ -562,7 +562,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1602372436}
-  - component: {fileID: 1602372435}
   - component: {fileID: 1602372434}
   m_Layer: 0
   m_Name: PlaybackAvatar
@@ -583,26 +582,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b09a9124b1b3e046a4346a97d486250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_recordingPath: C:\Users\olive\AppData\LocalLow\DefaultCompany\MetaAvatarsNPCRecorder\AvatarRecordings\MyRecording_1.bin
-  m_isPlaying: 0
-  m_counter: 0
-  m_shouldLoop: 1
---- !u!114 &1602372435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602372433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f775fcfeef42d0543abbd1e03dfe74fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _creationInfo:
     features: 38
     renderFilters:
-      lodFlags: -1
+      lodFlags: 31
       manifestationFlags: 2
       viewFlags: 3
       subMeshInclusionFlags: 2047
@@ -637,34 +620,10 @@ MonoBehaviour:
       m_Calls: []
   OnSkeletonLoadedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1602372434}
-        m_TargetAssemblyTypeName: PlaybackMetaAvatar, Assembly-CSharp
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnDefaultAvatarLoadedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1602372434}
-        m_TargetAssemblyTypeName: PlaybackMetaAvatar, Assembly-CSharp
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnFastLoadAvatarLoadedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -682,22 +641,12 @@ MonoBehaviour:
   _hidden: 0
   useRenderLods: 1
   _isLocal: 0
-  _loadUserFromCdn: 0
-  _deferLoading: 0
-  _assets:
-  - source: 0
-    path: 5
-  _underscorePostfix: 1
-  _overridePostfix: 
-  _autoCdnRetry: 1
-  _autoCheckChanges: 0
-  _changeCheckInterval: 8
-  _debugDrawGazePos: 0
-  _debugDrawGazePosColor: {r: 1, g: 0, b: 1, a: 1}
-  _overrideStreamLod: 0
-  shaderGrayToSolidColorBlend_: 0.7
-  shaderDesatBlend_: 0
-  shaderSolidColor_: {r: 0.12941177, g: 0.19607843, b: 0.3882353, a: 0}
+  m_recordingPath: C:\Users\olive\AppData\LocalLow\DefaultCompany\MetaAvatarsNPCRecorder\AvatarRecordings\MyRecording.bin
+  m_isPlaying: 0
+  m_counter: 0
+  m_shouldLoop: 1
+  m_localAvatarPath: 2
+  m_playOnLoad: 1
 --- !u!4 &1602372436
 Transform:
   m_ObjectHideFlags: 0

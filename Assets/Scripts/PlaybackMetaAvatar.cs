@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Oculus.Avatar2;
 using System.IO;
-using System.ComponentModel;
 
-[RequireComponent(typeof(OvrAvatarEntity))]
-public class PlaybackMetaAvatar : MonoBehaviour
+
+public class PlaybackMetaAvatar : OvrAvatarEntity
 {
     [SerializeField] string m_recordingPath;
-    OvrAvatarEntity m_entity;
     List<byte[]> m_playBackBytes = new List<byte[]>();
     const int BYTE_ARRAY_LENGTH = 468;
     [SerializeField] bool m_isPlaying = false;
@@ -17,16 +15,47 @@ public class PlaybackMetaAvatar : MonoBehaviour
     float m_interval = 0.1f;
     [SerializeField] int m_counter = 0;
     [SerializeField] bool m_shouldLoop = false;
+    [SerializeField] string m_localAvatarPath = "0";
+    [SerializeField] bool m_playOnLoad = true;
 
-
-    private void Awake()
-    {
-        m_entity = GetComponent<OvrAvatarEntity>();
-    }
 
     private void Start()
     {
         m_counter = 0;
+        LoadLocalAvatar();
+    }
+
+    private void LoadLocalAvatar()
+    {
+        // Zip asset paths are relative to the inside of the zip.
+        // Zips can be loaded from the OvrAvatarManager at startup or by calling OvrAvatarManager.Instance.AddZipSource
+        // Assets can also be loaded individually from Streaming assets
+        var path = new string[1];
+        bool isFromZip = true;
+
+        string assetPostfix = "_"
+            + OvrAvatarManager.Instance.GetPlatformGLBPostfix(isFromZip)
+            + OvrAvatarManager.Instance.GetPlatformGLBVersion(_creationInfo.renderFilters.highQualityFlags != CAPI.ovrAvatar2EntityHighQualityFlags.None, isFromZip)
+            + OvrAvatarManager.Instance.GetPlatformGLBExtension(isFromZip);
+
+        path[0] = m_localAvatarPath + assetPostfix;
+        if (isFromZip)
+        {
+            LoadAssetsFromZipSource(path);
+        }
+        else
+        {
+            LoadAssetsFromStreamingAssets(path);
+        }
+    }
+
+    protected override void OnSkeletonLoaded()
+    {
+        base.OnSkeletonLoaded();
+        if (m_playOnLoad)
+        {
+            Play();
+        }
     }
 
     private void Update()
@@ -43,8 +72,8 @@ public class PlaybackMetaAvatar : MonoBehaviour
             {
                 if (m_counter < m_playBackBytes.Count)
                 {
-                    m_entity.ApplyStreamData(m_playBackBytes[m_counter]);
-                    m_entity.SetPlaybackTimeDelay(m_interval);
+                    ApplyStreamData(m_playBackBytes[m_counter]);
+                    SetPlaybackTimeDelay(m_interval);
                     m_counter++;
                 }
                 else
@@ -52,7 +81,7 @@ public class PlaybackMetaAvatar : MonoBehaviour
                     if (m_shouldLoop)
                     {
                         m_counter = 0;
-                        GetComponent<SampleAvatarEntity>().Recreate();
+                        Recreate();
                     }
                     else
                     {
@@ -64,16 +93,17 @@ public class PlaybackMetaAvatar : MonoBehaviour
         }
     }
 
+    void Recreate()
+    {
+        Teardown();
+        CreateEntity();
+        LoadLocalAvatar();
+    }
+
     public void Play()
     {
         m_isPlaying = true;
         m_playBackBytes = GetBytesFromFile(m_recordingPath);
-    }
-
-    void ReadBytesFromFile()
-    {
-        List<byte[]> bytesFromFile = GetBytesFromFile(m_recordingPath);
-        Debug.Log("Byte Arrays In File: " + bytesFromFile.Count);
     }
 
     List<byte[]> GetBytesFromFile(string path)
