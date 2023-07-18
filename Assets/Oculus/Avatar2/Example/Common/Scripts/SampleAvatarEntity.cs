@@ -121,6 +121,13 @@ public class SampleAvatarEntity : OvrAvatarEntity
 #endif
     }
 
+    public void Recreate()
+    {
+        Teardown();
+        CreateEntity();
+        LoadLocalAvatar();
+    }
+
     protected virtual IEnumerator Start()
     {
 

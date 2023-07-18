@@ -16,6 +16,7 @@ public class PlaybackMetaAvatar : MonoBehaviour
     float m_cycleStartTime = 0;
     float m_interval = 0.1f;
     [SerializeField] int m_counter = 0;
+    [SerializeField] bool m_shouldLoop = false;
 
 
     private void Awake()
@@ -35,11 +36,6 @@ public class PlaybackMetaAvatar : MonoBehaviour
             Play();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ReadBytesFromFile();
-        }
-
         if (m_isPlaying)
         {
             float elapsedTime = Time.time - m_cycleStartTime;
@@ -53,7 +49,15 @@ public class PlaybackMetaAvatar : MonoBehaviour
                 }
                 else
                 {
-                    Stop();
+                    if (m_shouldLoop)
+                    {
+                        m_counter = 0;
+                        GetComponent<SampleAvatarEntity>().Recreate();
+                    }
+                    else
+                    {
+                        Stop();
+                    }
                 }
                 m_cycleStartTime = Time.time;
             }
